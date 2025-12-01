@@ -1,0 +1,7 @@
+loaded = []
+globalThis.require = function(x){
+  if(!loaded.includes(x)){
+    executeCFF('.pack', `System/Library/${x}`)
+    loaded[loaded.length] = x
+  }
+}
