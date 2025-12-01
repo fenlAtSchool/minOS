@@ -147,4 +147,20 @@ setFile(12, {name: '.pack', extension: '.cff', contents: 'try{let j=eval(getFile
 
 setFile(13, {name: 'User', extension: '', contents: []})
 
-setFile(14, {name: 'init', extension: '.pack', contents: 'function init(){let e=followPath("System/Library");font=getFile("font.json",e).contents,config=getFile("config.json",e).contents;let n=getFile("requirements.json",e);for(let t of(registerClick=!1,executeCFF(".pack","System/Library/require.pack"),n.contents))requestExecFunction(()=>require(t),"packLoaded");return requestExecFunction(()=>log("kernel","Succesful high-level initialization"),""),log("kernel","Succesful low-level initialization"),1}'})
+setFile(14, {name: 'init', extension: '.pack', contents: `
+globalThis.init = function(){
+  api.log('MARS MinOS Distro by fenl_')
+  let m = followPath("System/Library")
+  font = getFile("font.json", m).contents
+  config = getFile("config.json", m).contents
+  let a = getFile("requirements.json", m)
+  registerClick = false
+  executeCFF(".pack","System/Library/require.pack")
+  for(let i of a.contents){
+    requestExecFunction(() => require(i), 'packLoaded')
+  }
+  requestExecFunction(() => log("kernel", "Succesful high-level initialization"), '')
+  log("kernel", "Succesful low-level initialization")
+  return 1
+}
+`})
