@@ -1,0 +1,6 @@
+globalThis.inBounds = function(x,y,z){
+  return x > y && x < z
+}
+globalThis.log = function(x, y){
+  api.broadcastMessage(`module-minos-${x}: ${y}`)
+}
