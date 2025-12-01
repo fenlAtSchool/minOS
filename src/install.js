@@ -5,7 +5,7 @@ setFile(0, {name:  'root', extension: '', contents: [1, 13]})
 
 setFile(1, {name: 'System', extension: '', contents: [2]})
 
-setFile(2, {name: 'Library', extension: '', contents: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]})
+setFile(2, {name: 'Library', extension: '', contents: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14]})
 
 setFile(3, {name: 'buttons', extension: '.pack', contents: `
 require('display.pack')
@@ -146,3 +146,5 @@ setFile(11, {name: 'utils', extension: '.pack', contents: 'globalThis.inBounds=f
 setFile(12, {name: '.pack', extension: '.cff', contents: 'try{let j=eval(getFile(data).contents);log("pack.cff",`Succesfully decompressed file ${data}`)}catch(error){log("pack.cff",`Unable to decompress file ${data}: Error ${error}`)}"HALT"'})
 
 setFile(13, {name: 'User', extension: '', contents: []})
+
+setFile(14, {name: 'init', extension: '.pack', contents: 'function init(){let e=followPath("System/Library");font=getFile("font.json",e).contents,config=getFile("config.json",e).contents;let n=getFile("requirements.json",e);for(let t of(registerClick=!1,executeCFF(".pack","System/Library/require.pack"),n.contents))requestExecFunction(()=>require(t),"packLoaded");return requestExecFunction(()=>log("kernel","Succesful high-level initialization"),""),log("kernel","Succesful low-level initialization"),1}'})
