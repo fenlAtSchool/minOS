@@ -1,4 +1,4 @@
-equire("display.pack")
+require("display.pack")
 require("utils.pack")
 globalThis.decreaseClick = function(){
 	userCursorPos = getPlayerLook()
