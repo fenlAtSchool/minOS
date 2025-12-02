@@ -1,6 +1,7 @@
 equire("display.pack")
 require("utils.pack")
 globalThis.decreaseClick = function(){
+	isClicking = registerClick
 	userCursorPos = getPlayerLook()
 	if(registerClick){
 		let a = [...clickFunctions]
