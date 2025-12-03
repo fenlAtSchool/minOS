@@ -1,5 +1,11 @@
 globalThis.drawDisplay = function(id = user){
   screen = Array.from({length: config.displayy}, () => Array(config.displayx).fill(config.light))
+  try{
+    buffer = getFile("System/buffer.json").contents
+  } catch {
+    buffer = Array.from({length: config.displayy}, () => Array(config.displayx).fill(config.light))
+    newFile("System", {name: "buffer", extension: ".json", contents: buffer})
+  }
   for(let i of Object.values(windows)){
     i.render()
   }
@@ -11,7 +17,7 @@ globalThis.dis = function(){
   if(disy < config.displayy - 1){
     requestExecFunction(dis, '')
     while(1){
-      api.setBlock([disx - config.displayx/2,config.displayy - disy,50], screen[disy][disx])
+      if{buffer[disy][disx] != screen[disy][disx]}api.setBlock([disx - config.displayx/2,config.displayy - disy,50], screen[disy][disx])
       disx++
       if(disx == config.displayx){
         disy++
@@ -22,6 +28,8 @@ globalThis.dis = function(){
       }
     }
   } else {
+    screen = null
+    buffer = null
     return ''
   }
 }
