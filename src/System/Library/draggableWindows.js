@@ -12,11 +12,30 @@ globalThis.dragWindow = class extends Button{
       }
     }
   }
+  cursorOnWindow(){
+    return inBounds(userCursorPos[0], this.startx, this.startx + this.x) && inBounds(userCursorPos[1], this.starty, this.starty + this.y)
+  }
   drag(){
     clickFunctions.push(() => this.drag())
-    let par = this.getParams()
-    this.relative = [userCursorPos[0] - par.startx, userCursorPos[1] - par.starty]
-    if()
+    if(!this.cursorOnWindow()){
+      return
+    }
+    this.isDragged = !this.isDragged
+    if(this.isDragged){
+      let par = this.getParams()
+      this.relative = [userCursorPos[0] - par.startx, userCursorPos[1] - par.starty]
+      if(inBounds(this.relative[0], 2, 4) && inBounds(this.relative[1], 2, 4)){
+        scheduleFirstUnused(() => this.follow())
+      }
+    }
+  }
+  follow(){
+    if(this.isDragged){
+      this.startx = userCursorPos[0] - this.relative[0]
+      this.starty = userCursorPos[1] - this.relative[1]
+    } else {
+      scheduleFirstUnused(() => this.follow())
+    }
   }
 }
 /*
