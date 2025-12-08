@@ -4,7 +4,7 @@ require("utils.pack")
 globalThis.cursors = {
 	decreaseClick(){
 		isClicking = registerClick
-		cursors.userCursorPos = getPlayerLook()
+		cursors.userCursorPos = cursors.getPlayerLook()
 		if(registerClick){
 			let a = [...cursors.clickFunctions]
 			cursors.clickFunctions = []
