@@ -1,43 +1,45 @@
-globalThis.drawDisplay = function(id = user){
-  scheduleFirstUnused(drawDisplay)
-  screen = Array.from({length: config.displayy}, () => Array(config.displayx).fill(config.light))
-  try{
-    buffer = getFile("System/buffer.json").contents
-  } catch {
-    buffer = Array.from({length: config.displayy}, () => Array(config.displayx).fill(config.light))
-    newFile("System", {name: "buffer", extension: ".json", contents: buffer})
-  }
-  if(screen == buffer){
-    return
-  }
-  for(let i of Object.values(windows)){
-    i.render()
-  }
-  disx = 0
-  disy = 0
-  requestExecFunction(dis, '')
-}
-globalThis.dis = function(){
-  if(disy < config.displayy - 1){
-    requestExecFunction(dis, '')
-    while(1){
-      if(buffer[disy][disx] != screen[disy][disx])api.setBlock([disx - config.displayx/2,config.displayy - disy,50], screen[disy][disx])
-      disx++
-      if(disx == config.displayx){
-        disy++
-        disx = 0
-      }
-      if(disy == config.displayy - 1){
-        return ''
-      }
+globalThis.display = {
+  drawDisplay(id = user){
+    scheduleFirstUnused(display.drawDisplay)
+    screen = Array.from({length: config.displayy}, () => Array(config.displayx).fill(config.light))
+    try{
+      buffer = getFile("System/buffer.json").contents
+    } catch {
+      buffer = Array.from({length: config.displayy}, () => Array(config.displayx).fill(config.light))
+      newFile("System", {name: "buffer", extension: ".json", contents: buffer})
     }
-  } else {
-    screen = null
-    buffer = null
-    return ''
-  }
+    if(screen == buffer){
+      return
+    }
+    for(let i of Object.values(display.windows)){
+      i.render()
+    }
+    disx = 0
+    disy = 0
+    requestExecFunction(dis, '')
+  },
+  dis(){
+    if(disy < config.displayy - 1){
+      requestExecFunction(display.dis, '')
+      while(1){
+        if(buffer[disy][disx] != screen[disy][disx])api.setBlock([disx - config.displayx/2,config.displayy - disy,50], screen[disy][disx])
+        disx++
+        if(disx == config.displayx){
+          disy++
+          disx = 0
+        }
+        if(disy == config.displayy - 1){
+          return ''
+        }
+      }
+    } else {
+      screen = null
+      buffer = null
+      return ''
+    }
+  },
+  display.windows: []
 }
-
 globalThis.Window = class{
   constructor(startx, starty, x, y){
     this.startx = startx
@@ -102,5 +104,3 @@ globalThis.Window = class{
     }
   }
 }
-
-windows = []
