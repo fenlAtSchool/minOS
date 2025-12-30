@@ -1,13 +1,17 @@
 import os
 import requests
 
+distro = input()
+
 def minify(a):
   a = {'input': a}
   return requests.post('https://www.toptal.com/developers/javascript-minifier/api/raw',data=a).text
 
 j = os.listdir('System/Library')
+t = os.listdir(f"Distros/{a}")
 
-j = ["System/Library/" + i for i in j if not i[0] == '.' and '.' in i]
+j = ["System/Library/" + i for i in j if not i[0] == '.' and '.' in i and not i in t]
+j.extend([f"Distros/{a}/" + i for i in t if not i[0] == '.' and '.' in i])
 x = []
 for i in j:
   f = open(i)
