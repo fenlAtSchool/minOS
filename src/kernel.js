@@ -131,17 +131,44 @@ function scheduleLast(x,shift=1,onError = null){
 	let m = max(...functions.stack.keys + functions.tick) + shift
 	functions.stack[m] = [{exec: x, onError: onError}]
 }
+overClock = false
 function minitick(){
 // Contributed by bulebrainbrand
 	if(Object.hasOwn(functions.stack,functions.tick.toString())){
 		let m = functions.stack[functions.tick]
-		for(let i of m){
-			try{i.exec()}catch(error){log("kernel", `Error: ${error}`); i.onError()}
+		let n = m.length
+		mint_finish = true
+		for(mint = 0; mint < n; mint++){
+			try{
+				m[mint].exec()
+			} catch(error){
+				log('kernel', `Error: ${error}`)
+				m[mint].onError()
+			}
 		}
+		mint_finish = false
 		delete functions.stack[functions.tick]
 	}
 	functions.tick++
 }
+Object.defineProperty(globalThis.InternalError.prototype, "name", { // Overclocking
+    configurable: true,
+    get: () => {
+        if(overClock && mint_finish){
+			let m = functions.stack[functions.tick]
+			let n = m.length
+			for(; mint < n; mint++){
+				try{
+					m[mint].exec()
+				} catch(error){
+					log('kernel', `Error: ${error}`)
+					m[mint].onError()
+				}
+			}
+		}
+		return
+    }
+})
 function tick(){
 	minitick()
 }
