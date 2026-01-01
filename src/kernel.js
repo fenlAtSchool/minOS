@@ -1,4 +1,14 @@
+/*
 
+___  ____ _ _      _   __                     _ 	
+|  \/  (_) | |    | | / /                    | |	
+| .  . |_| | | __ | |/ /  ___ _ __ _ __   ___| |	
+| |\/| | | | |/ / |    \ / _ \ '__| '_ \ / _ \ |	
+| |  | | | |   <  | |\  \  __/ |  | | | |  __/ |	
+\_|  |_/_|_|_|\_\ \_| \_/\___|_|  |_| |_|\___|_|	
+
+For Bloxd.io MinOS Systems
+*/
 function onPlayerClick(id){
 	if(id == user){
 		registerClick = true
@@ -172,3 +182,11 @@ Object.defineProperty(globalThis.InternalError.prototype, "name", { // Overclock
 function tick(){
 	minitick()
 }
+
+
+/*
+Minification:
+
+function onPlayerClick(e){e==user&&(registerClick=!0)}function log(e,t){api.broadcastMessage(`minos-module-${e}: ${t}`)}function getFile(e,t=0){let n=followPath(e,t),o=api.getBlockData(1e5,n,0)?.persisted?.shared.c;if(void 0==o)throw Error(`fileNotFoundError: ${e}`);let l=Array.from({length:o},(e,t)=>api.getBlockData(1e5,n,t+1).persisted.shared.c);return JSON.parse(l.join(""))}function loadChunk(e){e=Math.floor(e/32),api.getBlock(1e5,32*e+16,0)}function setFile(e,t){try{let n=JSON.stringify(t).match(/.{1,300}/g),o=followPath(e);api.setBlockData(1e5,o,0,{persisted:{shared:{c:n.length}}});for(let l=0;l<n.length;l++)api.setBlockData(1e5,o,l+1,{persisted:{shared:{c:n[l]}}})}catch{log("kernel","Warning: setFile not working")}}function setFileAttribute(e,t,n){let o=getFile(e);o[t]=n,setFile(e,o)}function followPath(e,t=0){if("number"==typeof e)return e;"string"==typeof e&&(e=e.split("/"));let n=[];for(let o of e){if(!(n=(n=(t=getFile(t).contents).map(e=>getFile(e))).map(e=>e.name+e.extension)).includes(o))throw Error(`invalidFilePathError: ${e}`);t=t[n.indexOf(o)]}return t}function deleteFile(e,t){e=followPath(e),t=followPath(t);let n=getFile(t);""==n.extension&&n.contents.forEach(e=>deleteFile(t,e)),setFile(t,{});let o=getFile(e);o.contents.splice(o.indexOf(t),1),setFile(e,o)}function newFile(e,t){e=followPath(e);let n=getFile(e),o=getFile(-1);return o.fileCount++,n.contents[n.contents.length]=o.fileCount,setFile(e,n),setFile(o.fileCount,t),setFile(-1,o),log("kernel",`Succesful File Created: ${t.name+t.extension}`),o.fileCount}function boot(e){functions={tick:0,stack:{}},user=e,loadChunk(0),executeCFF(".pack","System/Library/init.pack"),requestExecFunction(()=>init(),"bootupCode"),log("kernel","Succesful Boot")}function executeCFF(extension,data){let tr=`System/Library/${extension}.cff`;if(tr=getFile(tr).contents,"HALT"!=(tr=eval(`let data = '${data}'; let path = '${tr}'; ${tr}`)))return requestExecFunction(()=>executeCFF(extension,data)),tr}function execute(e){executeCFF(e.split(".").at(-1),e)}function requestExecFunction(e,t){scheduleFirstUnused(e)}function schedule(e,t,n=null){let o=functions.stack[functions.tick+t];o||(o=[]),o[o.length]={exec:e,onError:n},functions.stack[functions.stack.length+t]=o}function scheduleFirstUnused(e,t=functions.tick+1,n=null){for(;functions.stack[t];)t++;functions.stack[t]=[{exec:e,onError:n}]}function scheduleLast(e,t=1,n=null){let o=max(...functions.stack.keys+functions.tick)+t;functions.stack[o]=[{exec:e,onError:n}]}function minitick(){if(Object.hasOwn(functions.stack,functions.tick.toString())){let e=functions.stack[functions.tick],t=e.length;for(mint=0,mint_finish=!0;mint<t;mint++)try{e[mint].exec()}catch(n){log("kernel",`Error: ${n}`),e[mint].onError()}mint_finish=!1,delete functions.stack[functions.tick]}functions.tick++}function tick(){minitick()}user=99999,functions={tick:0,stack:{}},overClock=!1,Object.defineProperty(globalThis.InternalError.prototype,"name",{configurable:!0,get(){if(overClock&&mint_finish){let e=functions.stack[functions.tick],t=e.length;for(;mint<t;mint++)try{e[mint].exec()}catch(n){log("kernel",`Error: ${n}`),e[mint].onError()}}}});
+
+*/
